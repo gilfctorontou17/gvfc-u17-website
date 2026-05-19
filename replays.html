@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match Replays &middot; Gil Vicente FC Toronto U-17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red:#C8102E; --blue:#003DA5; --white:#FFFFFF; --black:#0A0A0A; --gray:#F4F4F4; --muted:#6B7280; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", sans-serif; background: #111; color: var(--white); }
+    nav { position: fixed; top:0; left:0; right:0; z-index:1000; height:64px; background:var(--black); border-bottom:3px solid var(--red); display:flex; align-items:center; justify-content:space-between; padding:0 5%; }
+    .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-brand img { width:38px; height:38px; object-fit:contain; }
+    .nav-brand span { font-family:"Bebas Neue",sans-serif; font-size:1.1rem; color:var(--white); letter-spacing:0.05em; line-height:1.1; }
+    .nav-links { display:flex; align-items:center; gap:22px; list-style:none; }
+    .nav-links a { font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--red); }
+    .nav-links .live-link { color:var(--red); }
+    .nav-links .live-link::before { content:"● "; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:26px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-drawer { display:none; position:fixed; top:64px; left:0; right:0; background:var(--black); border-top:1px solid #222; z-index:999; flex-direction:column; }
+    .mobile-drawer.open { display:flex; }
+    .mobile-drawer a { font-weight:700; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; padding:16px 5%; border-bottom:1px solid #1a1a1a; transition:background 0.2s; }
+    .mobile-drawer a:hover { background:#1a1a1a; }
+    .mobile-drawer a.live-link { color:var(--red); }
+    .mobile-drawer a.live-link::before { content:"● "; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+    .page-header { background:var(--black); padding:120px 5% 60px; text-align:center; position:relative; overflow:hidden; }
+    .page-header::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,61,165,0.15) 0%,rgba(200,16,46,0.15) 100%); pointer-events:none; }
+    .page-header-inner { position:relative; z-index:1; }
+    .page-header h1 { font-family:"Bebas Neue",sans-serif; font-size:clamp(3rem,10vw,6rem); color:var(--white); letter-spacing:0.04em; line-height:1; margin-bottom:12px; }
+    .page-header h1 span { color:var(--red); }
+    .page-header-sub { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.4); margin-bottom:28px; }
+    .btn-back { display:inline-block; background:transparent; color:rgba(255,255,255,0.6); font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; padding:10px 20px; border:1px solid rgba(255,255,255,0.2); border-radius:4px; text-decoration:none; transition:all 0.2s; }
+    .btn-back:hover { color:var(--white); border-color:rgba(255,255,255,0.5); }
+    .replays-section { padding:60px 5% 80px; max-width:1200px; margin:0 auto; }
+    .replays-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+    @media(max-width:640px){ .replays-grid{grid-template-columns:1fr;} }
+    .replay-card { background:#1a1a1a; border-radius:8px; overflow:hidden; transition:transform 0.2s,box-shadow 0.2s; }
+    .replay-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,0.4); }
+    .replay-thumb { aspect-ratio:16/9; background:#222; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; overflow:hidden; }
+    .replay-thumb iframe { width:100%; height:100%; border:none; display:block; }
+    .replay-thumb-icon { font-size:2.5rem; }
+    .replay-thumb-label { font-size:0.75rem; color:#444; text-transform:uppercase; letter-spacing:0.08em; }
+    .replay-body { padding:16px; }
+    .replay-date { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:#555; margin-bottom:8px; }
+    .replay-title { font-weight:700; font-size:0.9rem; line-height:1.4; color:var(--white); margin-bottom:10px; }
+    .replay-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .result-badge { font-size:0.65rem; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:3px; letter-spacing:0.05em; }
+    .r-draw { background:#333; color:#aaa; }
+    .r-loss { background:rgba(200,16,46,0.2); color:var(--red); }
+    .r-win { background:rgba(22,163,74,0.2); color:#4ade80; }
+    .r-tbd { background:#2a2a2a; color:#555; }
+    .replay-comp { font-size:0.65rem; color:#555; text-transform:uppercase; letter-spacing:0.05em; }
+    footer { background:var(--black); border-top:3px solid var(--red); padding:48px 5% 0; }
+    .footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; padding-bottom:40px; }
+    @media(max-width:640px){ .footer-inner{grid-template-columns:1fr; gap:28px;} }
+    .footer-brand { display:flex; align-items:flex-start; gap:14px; }
+    .footer-brand img { width:52px; object-fit:contain; flex-shrink:0; }
+    .footer-brand-text { color:rgba(255,255,255,0.5); font-size:0.78rem; line-height:1.6; }
+    .footer-brand-text strong { color:var(--white); font-size:0.88rem; display:block; margin-bottom:4px; }
+    .footer-col { display:flex; flex-direction:column; gap:10px; }
+    .footer-col-title { font-size:0.66rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.3); margin-bottom:2px; font-weight:700; }
+    .footer-col a { color:rgba(255,255,255,0.55); text-decoration:none; font-size:0.82rem; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--white); }
+    .footer-bottom { border-top:1px solid #1c1c1c; padding:18px 0; max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    .footer-copy { font-size:0.7rem; color:rgba(255,255,255,0.28); }
+    .footer-social { display:flex; gap:18px; }
+    .footer-social a { color:rgba(255,255,255,0.35); font-size:0.7rem; text-decoration:none; transition:color 0.2s; }
+    .footer-social a:hover { color:var(--white); }
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3CHEpqCEJvh94HpWjTRlKF6FLuY/2cccc3a5-ba3a-49ff-ad69-860903c1b97b.png" alt="GVFC Badge" />
+    <span>Gil Vicente FC<br>Toronto &middot; U-17</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#live" class="live-link">Live</a></li>
+    <li><a href="index.html#roster">Roster</a></li>
+    <li><a href="index.html#schedule">Schedule</a></li>
+    <li><a href="index.html#standings">Standings</a></li>
+    <li><a href="index.html#scorers">Scorers</a></li>
+    <li><a href="replays.html">Replays</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#news">News</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html#live" class="live-link" onclick="closeMenu()">Live</a>
+  <a href="index.html#roster" onclick="closeMenu()">Roster</a>
+  <a href="index.html#schedule" onclick="closeMenu()">Schedule</a>
+  <a href="index.html#standings" onclick="closeMenu()">Standings</a>
+  <a href="index.html#scorers" onclick="closeMenu()">Scorers</a>
+  <a href="replays.html" onclick="closeMenu()">Replays</a>
+  <a href="index.html#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="index.html#news" onclick="closeMenu()">News</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1>Match <span>Replays</span></h1>
+    <p class="page-header-sub">2025&ndash;26 Season &middot; Full Veo Recordings</p>
+    <a href="index.html" class="btn-back">&larr; Back to Site</a>
+  </div>
+</div>
+
+<div class="replays-section">
+  <div class="replays-grid">
+
+    <!-- Card 1 — TO ADD VIDEO: replace replay-thumb contents with:
+    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe> -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">Apr 30, 2025</div>
+        <div class="replay-title">Gil Vicente FC vs Power FC</div>
+        <div class="replay-meta"><span class="result-badge r-draw">1&ndash;1 Draw</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 2 — TO ADD VIDEO: replace replay-thumb contents with iframe above -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">May 14, 2025</div>
+        <div class="replay-title">Cherry Beach SC vs Gil Vicente FC</div>
+        <div class="replay-meta"><span class="result-badge r-loss">6&ndash;2 Loss</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">May 24, 2025</div>
+        <div class="replay-title">Toronto High Park FC vs Gil Vicente FC</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">May 29, 2025</div>
+        <div class="replay-title">Gil Vicente FC vs FC Emery</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">Jun 6, 2025</div>
+        <div class="replay-title">Gil Vicente FC vs North York Academy</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">Jun 9, 2025</div>
+        <div class="replay-title">Gil Vicente FC vs North Toronto SC</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">Jun 13, 2025</div>
+        <div class="replay-title">Dutch Connections FC vs Gil Vicente FC</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="replay-card">
+      <div class="replay-thumb">
+        <div class="replay-thumb-icon">&#127916;</div>
+        <div class="replay-thumb-label">Video coming soon</div>
+      </div>
+      <div class="replay-body">
+        <div class="replay-date">Jun 15, 2025</div>
+        <div class="replay-title">Gil Vicente FC vs Olympic Flame FC</div>
+        <div class="replay-meta"><span class="result-badge r-tbd">TBD</span><span class="replay-comp">IModel Qualifying B17</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3CHEpqCEJvh94HpWjTRlKF6FLuY/2cccc3a5-ba3a-49ff-ad69-860903c1b97b.png" alt="GVFC Badge" />
+      <div class="footer-brand-text"><strong>Gil Vicente FC Toronto &mdash; U-17</strong>Official team website &middot; 2025&ndash;26 Season</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Navigation</div>
+      <a href="index.html#live">Live Stream</a>
+      <a href="replays.html">Replays</a>
+      <a href="index.html#roster">Roster</a>
+      <a href="index.html#schedule">Schedule</a>
+      <a href="index.html#standings">Standings</a>
+      <a href="index.html#news">News</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">External</div>
+      <a href="https://tosoccerleague.ca" target="_blank" rel="noopener">TOSL Website</a>
+      <a href="https://youtube.com/@GilVicenteFCTorontoU-17" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025&ndash;26 Gil Vicente FC Toronto U-17. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="https://youtube.com/@GilVicenteFCTorontoU-17" target="_blank">YouTube</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+      <a href="https://tiktok.com" target="_blank">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() { document.getElementById("mobile-drawer").classList.toggle("open"); }
+  function closeMenu() { document.getElementById("mobile-drawer").classList.remove("open"); }
+  document.addEventListener("click", function(e) {
+    var nav = document.getElementById("main-nav");
+    var drawer = document.getElementById("mobile-drawer");
+    if (!nav.contains(e.target) && !drawer.contains(e.target)) { closeMenu(); }
+  });
+</script>
+</body>
+</html>

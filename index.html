@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gil Vicente FC Toronto &middot; U-17</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red:#C8102E; --blue:#003DA5; --white:#FFFFFF; --black:#0A0A0A; --gray:#F4F4F4; --muted:#6B7280; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+    nav { position: fixed; top:0; left:0; right:0; z-index:1000; height:64px; background:var(--black); border-bottom:3px solid var(--red); display:flex; align-items:center; justify-content:space-between; padding:0 5%; }
+    .nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-brand img { width:38px; height:38px; object-fit:contain; }
+    .nav-brand span { font-family:"Bebas Neue",sans-serif; font-size:1.1rem; color:var(--white); letter-spacing:0.05em; line-height:1.1; }
+    .nav-links { display:flex; align-items:center; gap:22px; list-style:none; }
+    .nav-links a { font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--red); }
+    .nav-links .live-link { color:var(--red); }
+    .nav-links .live-link::before { content:"● "; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:26px; height:2px; background:var(--white); border-radius:2px; }
+    .mobile-drawer { display:none; position:fixed; top:64px; left:0; right:0; background:var(--black); border-top:1px solid #222; z-index:999; flex-direction:column; }
+    .mobile-drawer.open { display:flex; }
+    .mobile-drawer a { font-weight:700; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; padding:16px 5%; border-bottom:1px solid #1a1a1a; transition:background 0.2s; }
+    .mobile-drawer a:hover { background:#1a1a1a; }
+    .mobile-drawer a.live-link { color:var(--red); }
+    .mobile-drawer a.live-link::before { content:"● "; }
+    @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
+    .hero { min-height:90vh; background:var(--black); display:flex; align-items:center; justify-content:center; text-align:center; padding:100px 24px 60px; position:relative; overflow:hidden; }
+    .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,61,165,0.18) 0%,rgba(200,16,46,0.18) 100%); pointer-events:none; }
+    .hero-inner { position:relative; z-index:1; max-width:680px; }
+    .hero-badge-wrap { position:relative; display:inline-block; margin-bottom:32px; animation:float 4s ease-in-out infinite; }
+    .hero-badge-wrap img { width:140px; display:block; }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+    .badge-pill { position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); background:var(--red); color:var(--white); font-family:"Bebas Neue",sans-serif; font-size:0.85rem; padding:2px 14px; border-radius:20px; letter-spacing:0.12em; white-space:nowrap; }
+    .hero h1 { font-family:"Bebas Neue",sans-serif; font-size:clamp(3rem,9vw,6.5rem); color:var(--white); line-height:0.92; letter-spacing:0.02em; margin-bottom:16px; }
+    .hero h1 .toronto { color:var(--red); }
+    .hero-sub { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.22em; color:rgba(255,255,255,0.4); margin-bottom:36px; }
+    .hero-ctas { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn-red { background:var(--red); color:var(--white); font-weight:700; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.08em; padding:13px 30px; border:2px solid var(--red); border-radius:4px; text-decoration:none; transition:all 0.2s; display:inline-block; cursor:pointer; }
+    .btn-red:hover { background:transparent; color:var(--red); }
+    .btn-outline { background:transparent; color:var(--white); font-weight:700; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.08em; padding:13px 30px; border:2px solid rgba(255,255,255,0.4); border-radius:4px; text-decoration:none; transition:all 0.2s; display:inline-block; }
+    .btn-outline:hover { border-color:var(--white); }
+    .stats-bar { background:var(--blue); padding:28px 5%; }
+    .stats-grid { display:grid; grid-template-columns:repeat(6,1fr); max-width:1100px; margin:0 auto; }
+    .stat-item { text-align:center; padding:8px; border-right:1px solid rgba(255,255,255,0.15); }
+    .stat-item:last-child { border-right:none; }
+    .stat-num { font-family:"Bebas Neue",sans-serif; font-size:2.6rem; color:var(--white); line-height:1; }
+    .stat-label { font-size:0.65rem; text-transform:uppercase; color:rgba(255,255,255,0.55); letter-spacing:0.08em; margin-top:4px; }
+    @media(max-width:640px){ .stats-grid{grid-template-columns:repeat(3,1fr);} .stat-item:nth-child(3){border-right:none;} .stat-item:nth-child(n+4){border-top:1px solid rgba(255,255,255,0.1);} }
+    section { padding:72px 5%; }
+    .section-inner { max-width:1100px; margin:0 auto; }
+    .section-label { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.16em; color:var(--muted); margin-bottom:8px; font-weight:700; }
+    .section-title { font-family:"Bebas Neue",sans-serif; font-size:clamp(2.2rem,5vw,3.2rem); letter-spacing:0.03em; margin-bottom:40px; line-height:1; color:var(--black); }
+    #roster { background:var(--gray); }
+    .position-group { margin-bottom:36px; }
+    .position-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.14em; font-weight:700; color:var(--blue); border-bottom:2px solid var(--blue); padding-bottom:6px; margin-bottom:14px; display:inline-block; }
+    .player-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+    .player-card { background:var(--white); border-radius:6px; padding:14px; position:relative; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.07); transition:transform 0.2s,box-shadow 0.2s; }
+    .player-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+    .player-card::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--blue),var(--red)); }
+    .player-number { font-family:"Bebas Neue",sans-serif; font-size:2.2rem; color:#e8e8e8; float:right; line-height:1; }
+    .player-name { font-weight:700; font-size:0.84rem; color:var(--black); margin-top:4px; line-height:1.3; }
+    .player-pos { font-size:0.66rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.07em; margin-top:4px; }
+    .player-goals { font-size:0.7rem; font-weight:700; color:var(--red); margin-top:6px; }
+    .staff-section { margin-top:36px; }
+    .staff-title { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.14em; font-weight:700; color:var(--blue); border-bottom:2px solid var(--blue); padding-bottom:6px; margin-bottom:14px; display:inline-block; }
+    .staff-grid { display:flex; gap:16px; flex-wrap:wrap; }
+    .staff-card { background:var(--white); border-radius:6px; padding:14px 20px; box-shadow:0 1px 6px rgba(0,0,0,0.07); border-left:4px solid var(--blue); }
+    .staff-name { font-weight:700; font-size:0.9rem; }
+    .staff-role { font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-top:3px; }
+    @media(max-width:640px){ .player-grid{grid-template-columns:repeat(2,1fr);} }
+    #schedule { background:var(--white); }
+    .tabs { display:flex; margin-bottom:28px; border-bottom:2px solid #eee; }
+    .tab-btn { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; padding:10px 22px; background:none; border:none; cursor:pointer; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+    .tab-btn.active { color:var(--blue); border-bottom-color:var(--blue); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .data-table { width:100%; border-collapse:collapse; min-width:500px; }
+    .data-table th { font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); font-weight:700; padding:10px 12px; text-align:left; border-bottom:2px solid #eee; white-space:nowrap; }
+    .data-table td { padding:12px; font-size:0.84rem; border-bottom:1px solid #f2f2f2; vertical-align:middle; }
+    .data-table tr:last-child td { border-bottom:none; }
+    .data-table tbody tr:hover td { background:var(--gray); }
+    .badge-home { background:var(--blue); color:#fff; font-size:0.62rem; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:3px; letter-spacing:0.06em; }
+    .badge-away { background:var(--red); color:#fff; font-size:0.62rem; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:3px; letter-spacing:0.06em; }
+    .r-win { color:#16a34a; font-weight:700; }
+    .r-draw { color:var(--muted); font-weight:700; }
+    .r-loss { color:var(--red); font-weight:700; }
+    #standings { background:var(--gray); }
+    .standings-table { width:100%; border-collapse:collapse; min-width:580px; }
+    .standings-table th { font-size:0.66rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); font-weight:700; padding:10px 12px; text-align:center; border-bottom:2px solid #ddd; white-space:nowrap; }
+    .standings-table th:nth-child(2) { text-align:left; }
+    .standings-table td { padding:11px 12px; font-size:0.84rem; border-bottom:1px solid #e8e8e8; text-align:center; }
+    .standings-table td:nth-child(2) { text-align:left; font-weight:600; }
+    .standings-table tr:last-child td { border-bottom:none; }
+    .standings-table tbody tr:hover td { background:#ebebeb; }
+    .standings-table tr.gv-row td { background:rgba(0,61,165,0.06); }
+    .standings-table tr.gv-row td:nth-child(2) { color:var(--blue); font-weight:700; }
+    .s-pos { font-weight:700; color:#bbb; font-size:0.82rem; }
+    .s-pos.top3 { color:var(--blue); }
+    .pts-bold { font-weight:700; }
+    .gd-pos { color:#16a34a; font-weight:600; }
+    .gd-neg { color:var(--red); font-weight:600; }
+    .standings-note { font-size:0.72rem; color:var(--muted); margin-top:12px; }
+    .standings-note a { color:var(--muted); }
+    #scorers { background:var(--white); }
+    .scorers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+    .scorer-card { background:var(--white); border:1px solid #eee; border-radius:6px; padding:18px 20px; display:flex; align-items:center; gap:14px; box-shadow:0 1px 6px rgba(0,0,0,0.05); }
+    .scorer-num { font-family:"Bebas Neue",sans-serif; font-size:2.8rem; color:var(--red); line-height:1; min-width:38px; text-align:center; }
+    .scorer-name { font-weight:700; font-size:0.92rem; }
+    .scorer-meta { font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-top:4px; }
+    @media(max-width:640px){ .scorers-grid{grid-template-columns:1fr;} }
+    #live { background:var(--black); }
+    #live .section-label { color:rgba(255,255,255,0.4); }
+    #live .section-title { color:var(--white); }
+    .stream-word { color:var(--red); }
+    .live-wrap { max-width:900px; margin:0 auto; }
+    .live-box { background:#111; border-radius:10px; overflow:hidden; border:1px solid #222; }
+    .live-box-inner { aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:32px 24px; text-align:center; }
+    .live-icon { font-size:3.5rem; line-height:1; }
+    .live-offline-title { font-family:"Bebas Neue",sans-serif; font-size:2rem; color:#444; letter-spacing:0.04em; }
+    .live-offline-sub { font-size:0.82rem; color:#3a3a3a; max-width:320px; line-height:1.7; }
+    .live-next { font-size:0.74rem; color:rgba(255,255,255,0.25); text-align:center; margin-top:14px; }
+    #replays-section { background:#111; }
+    #replays-section .section-label { color:rgba(255,255,255,0.4); }
+    #replays-section .section-title { color:var(--white); }
+    .replays-word { color:var(--red); }
+    .replays-cta { text-align:center; padding:16px 0; }
+    .replays-sub { font-size:0.74rem; color:rgba(255,255,255,0.28); margin-top:12px; }
+    #gallery { background:var(--black); }
+    #gallery .section-label { color:rgba(255,255,255,0.4); }
+    #gallery .section-title { color:var(--white); }
+    .gallery-word { color:var(--red); }
+    .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; }
+    .gallery-tile { aspect-ratio:4/3; background:#1a1a1a; border-radius:6px; position:relative; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; }
+    .gallery-tile-icon { font-size:2.2rem; }
+    .gallery-tile-label { font-size:0.72rem; color:#444; text-transform:uppercase; letter-spacing:0.09em; }
+    .gallery-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.76); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s; }
+    .gallery-tile:hover .gallery-overlay { opacity:1; }
+    .gallery-caption { color:var(--white); font-size:0.82rem; font-weight:700; letter-spacing:0.06em; }
+    @media(max-width:640px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} }
+    #news { background:var(--white); }
+    .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:20px; }
+    .news-card { border:1px solid #eee; border-radius:8px; overflow:hidden; transition:box-shadow 0.2s,transform 0.2s; }
+    .news-card:hover { box-shadow:0 6px 24px rgba(0,0,0,0.09); transform:translateY(-3px); }
+    .news-card-top { height:5px; background:linear-gradient(90deg,var(--red),var(--blue)); }
+    .news-card-body { padding:20px; }
+    .news-date { font-size:0.68rem; color:var(--muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.08em; }
+    .news-headline { font-weight:700; font-size:0.95rem; margin-bottom:10px; line-height:1.4; }
+    .news-excerpt { font-size:0.82rem; color:var(--muted); line-height:1.65; margin-bottom:14px; }
+    .news-tag { display:inline-block; background:var(--gray); font-size:0.64rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; padding:3px 10px; border-radius:3px; color:#888; }
+    @media(max-width:640px){ .news-grid{grid-template-columns:1fr;} }
+    footer { background:var(--black); border-top:3px solid var(--red); padding:48px 5% 0; }
+    .footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; padding-bottom:40px; }
+    .footer-brand { display:flex; align-items:flex-start; gap:14px; }
+    .footer-brand img { width:52px; object-fit:contain; flex-shrink:0; }
+    .footer-brand-text { color:rgba(255,255,255,0.5); font-size:0.78rem; line-height:1.6; }
+    .footer-brand-text strong { color:var(--white); font-size:0.88rem; display:block; margin-bottom:4px; }
+    .footer-col { display:flex; flex-direction:column; gap:10px; }
+    .footer-col-title { font-size:0.66rem; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.3); margin-bottom:2px; font-weight:700; }
+    .footer-col a { color:rgba(255,255,255,0.55); text-decoration:none; font-size:0.82rem; transition:color 0.2s; }
+    .footer-col a:hover { color:var(--white); }
+    .footer-bottom { border-top:1px solid #1c1c1c; padding:18px 0; max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    .footer-copy { font-size:0.7rem; color:rgba(255,255,255,0.28); }
+    .footer-social { display:flex; gap:18px; }
+    .footer-social a { color:rgba(255,255,255,0.35); font-size:0.7rem; text-decoration:none; transition:color 0.2s; }
+    .footer-social a:hover { color:var(--white); }
+    @media(max-width:640px){ .footer-inner{grid-template-columns:1fr; gap:28px;} }
+  </style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="#" class="nav-brand">
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3CHEpqCEJvh94HpWjTRlKF6FLuY/2cccc3a5-ba3a-49ff-ad69-860903c1b97b.png" alt="GVFC Badge" />
+    <span>Gil Vicente FC<br>Toronto &middot; U-17</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#live" class="live-link">Live</a></li>
+    <li><a href="#roster">Roster</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#standings">Standings</a></li>
+    <li><a href="#scorers">Scorers</a></li>
+    <li><a href="replays.html" target="_blank">Replays</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#news">News</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="#live" class="live-link" onclick="closeMenu()">Live</a>
+  <a href="#roster" onclick="closeMenu()">Roster</a>
+  <a href="#schedule" onclick="closeMenu()">Schedule</a>
+  <a href="#standings" onclick="closeMenu()">Standings</a>
+  <a href="#scorers" onclick="closeMenu()">Scorers</a>
+  <a href="replays.html" target="_blank" onclick="closeMenu()">Replays</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#news" onclick="closeMenu()">News</a>
+</div>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-badge-wrap">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3CHEpqCEJvh94HpWjTRlKF6FLuY/2cccc3a5-ba3a-49ff-ad69-860903c1b97b.png" alt="GVFC Crest" />
+      <span class="badge-pill">U-17</span>
+    </div>
+    <h1>Gil Vicente FC<br><span class="toronto">Toronto</span></h1>
+    <p class="hero-sub">U-17 &middot; Barcelos &middot; 2025&ndash;26 Season</p>
+    <div class="hero-ctas">
+      <a href="#roster" class="btn-red">View Roster</a>
+      <a href="#schedule" class="btn-outline">Match Schedule</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-num">18</div><div class="stat-label">Players</div></div>
+    <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Wins</div></div>
+    <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Draws</div></div>
+    <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Losses</div></div>
+    <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Goals Scored</div></div>
+    <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Points</div></div>
+  </div>
+</div>
+
+<section id="roster">
+  <div class="section-inner">
+    <p class="section-label">2025&ndash;26 Season &middot; IMB17Q</p>
+    <h2 class="section-title">The <span style="color:var(--blue)">Squad</span></h2>
+
+    <div class="position-group">
+      <div class="position-label">Goalkeepers</div>
+      <div class="player-grid">
+        <div class="player-card"><span class="player-number">18</span><div class="player-name">Jose Mota</div><div class="player-pos">GK &middot; Goalkeeper</div></div>
+        <div class="player-card"><span class="player-number">55</span><div class="player-name">Isaac Cure Gomez</div><div class="player-pos">GK &middot; Goalkeeper</div></div>
+      </div>
+    </div>
+
+    <div class="position-group">
+      <div class="position-label">Defenders</div>
+      <div class="player-grid">
+        <div class="player-card"><span class="player-number">3</span><div class="player-name">Marley Serpa</div><div class="player-pos">LB &middot; Left Back</div></div>
+        <div class="player-card"><span class="player-number">20</span><div class="player-name">Adrian Gomes</div><div class="player-pos">CB &middot; Centre Back</div></div>
+        <div class="player-card"><span class="player-number">16</span><div class="player-name">Marcel Pereira</div><div class="player-pos">CB &middot; Centre Back</div></div>
+        <div class="player-card"><span class="player-number">5</span><div class="player-name">Gabriel Alfaro-Almeida</div><div class="player-pos">CB &middot; Centre Back</div></div>
+        <div class="player-card"><span class="player-number">10</span><div class="player-name">Darrell Brizan</div><div class="player-pos">RB &middot; Right Back</div></div>
+        <div class="player-card"><span class="player-number">21</span><div class="player-name">Joshua Cabreira</div><div class="player-pos">RW/RB &middot; Right Wing / Right Back</div></div>
+      </div>
+    </div>
+
+    <div class="position-group">
+      <div class="position-label">Midfielders</div>
+      <div class="player-grid">
+        <div class="player-card"><span class="player-number">6</span><div class="player-name">Nicholas Mendonca</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">25</span><div class="player-name">Daniel Danciuc Liber</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">4</span><div class="player-name">Pedro Clemente</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">33</span><div class="player-name">Matthew Scolieri</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">28</span><div class="player-name">Nicholas Morocho</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">11</span><div class="player-name">Alek Biku</div><div class="player-pos">CM &middot; Central Mid</div></div>
+        <div class="player-card"><span class="player-number">9</span><div class="player-name">Jacob Martins</div><div class="player-pos">CM &middot; Central Mid</div></div>
+      </div>
+    </div>
+
+    <div class="position-group">
+      <div class="position-label">Attackers</div>
+      <div class="player-grid">
+        <div class="player-card"><span class="player-number">7</span><div class="player-name">Lucas Ferreira</div><div class="player-pos">LW &middot; Left Wing</div><div class="player-goals">&#9917; 1 Goal</div></div>
+        <div class="player-card"><span class="player-number">45</span><div class="player-name">Antonio Panico</div><div class="player-pos">ST &middot; Striker</div><div class="player-goals">&#9917; 1 Goal</div></div>
+        <div class="player-card"><span class="player-number">0</span><div class="player-name">Sajjad Mirza</div><div class="player-pos">RW &middot; Right Wing</div></div>
+      </div>
+    </div>
+
+    <div class="staff-section">
+      <div class="staff-title">Coaching Staff</div>
+      <div class="staff-grid">
+        <div class="staff-card"><div class="staff-name">Bruno Santos</div><div class="staff-role">Head Coach</div></div>
+        <div class="staff-card"><div class="staff-name">Susana Rosario-Mendon&ccedil;a</div><div class="staff-role">Manager</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="section-inner">
+    <p class="section-label">2025&ndash;26 Season &middot; IModel Qualifying B17</p>
+    <h2 class="section-title">Schedule &amp; <span style="color:var(--blue)">Results</span></h2>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'upcoming')">Upcoming</button>
+      <button class="tab-btn" onclick="switchTab(event,'results')">Results</button>
+    </div>
+    <div class="tab-content active" id="tab-upcoming">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Date</th><th>Time</th><th>H/A</th><th>Opponent</th><th>Venue</th></tr></thead>
+          <tbody>
+            <tr><td>Sun May 24</td><td>9:00 am</td><td><span class="badge-away">Away</span></td><td>Toronto High Park FC</td><td>Michael Power HS</td></tr>
+            <tr><td>Fri May 29</td><td>9:00 pm</td><td><span class="badge-home">Home</span></td><td>FC Emery</td><td>Downsview Park #3</td></tr>
+            <tr><td>Sat Jun 6</td><td>2:00 pm</td><td><span class="badge-home">Home</span></td><td>North York Academy</td><td>Amesbury MS #1</td></tr>
+            <tr><td>Tue Jun 9</td><td>9:00 pm</td><td><span class="badge-home">Home</span></td><td>North Toronto SC</td><td>Downsview Park #2</td></tr>
+            <tr><td>Sat Jun 13</td><td>12:30 pm</td><td><span class="badge-away">Away</span></td><td>Dutch Connections FC</td><td>Centennial College Scarborough</td></tr>
+            <tr><td>Mon Jun 15</td><td>9:00 pm</td><td><span class="badge-home">Home</span></td><td>Olympic Flame FC</td><td>Downsview Park #3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-results">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Date</th><th>H/A</th><th>Opponent</th><th>Score</th><th>Result</th><th>Scorers</th></tr></thead>
+          <tbody>
+            <tr><td>Thu Apr 30</td><td><span class="badge-away">Away</span></td><td>Power FC</td><td>1&ndash;1</td><td><span class="r-draw">Draw</span></td><td>A. Panico</td></tr>
+            <tr><td>Thu May 14</td><td><span class="badge-away">Away</span></td><td>Cherry Beach SC</td><td>6&ndash;2</td><td><span class="r-loss">Loss</span></td><td>L. Ferreira, S. Aguilar</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="standings">
+  <div class="section-inner">
+    <p class="section-label">IModel Qualifying B17</p>
+    <h2 class="section-title">League <span style="color:var(--blue)">Standings</span></h2>
+    <div class="table-wrap">
+      <table class="standings-table">
+        <thead><tr><th>#</th><th>Team</th><th>GP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead>
+        <tbody>
+          <tr><td><span class="s-pos top3">1</span></td><td>Cherry Beach SC</td><td>4</td><td>4</td><td>0</td><td>0</td><td>23</td><td>3</td><td><span class="gd-pos">+20</span></td><td><span class="pts-bold">12</span></td></tr>
+          <tr><td><span class="s-pos top3">2</span></td><td>North York Academy</td><td>3</td><td>3</td><td>0</td><td>0</td><td>35</td><td>2</td><td><span class="gd-pos">+33</span></td><td><span class="pts-bold">9</span></td></tr>
+          <tr><td><span class="s-pos top3">3</span></td><td>Power FC</td><td>3</td><td>1</td><td>1</td><td>1</td><td>7</td><td>4</td><td><span class="gd-pos">+3</span></td><td><span class="pts-bold">4</span></td></tr>
+          <tr><td><span class="s-pos">4</span></td><td>Toronto High Park FC</td><td>1</td><td>1</td><td>0</td><td>0</td><td>12</td><td>0</td><td><span class="gd-pos">+12</span></td><td><span class="pts-bold">3</span></td></tr>
+          <tr><td><span class="s-pos">5</span></td><td>North Toronto SC</td><td>2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>6</td><td><span class="gd-neg">&minus;4</span></td><td><span class="pts-bold">3</span></td></tr>
+          <tr class="gv-row"><td><span class="s-pos">6</span></td><td>Gil Vicente FC &#9654;</td><td>2</td><td>0</td><td>1</td><td>1</td><td>3</td><td>7</td><td><span class="gd-neg">&minus;4</span></td><td><span class="pts-bold">1</span></td></tr>
+          <tr><td><span class="s-pos">7</span></td><td>Olympic Flame FC</td><td>2</td><td>0</td><td>0</td><td>2</td><td>0</td><td>12</td><td><span class="gd-neg">&minus;12</span></td><td><span class="pts-bold">0</span></td></tr>
+          <tr><td><span class="s-pos">8</span></td><td>Dutch Connections FC</td><td>2</td><td>0</td><td>0</td><td>2</td><td>1</td><td>14</td><td><span class="gd-neg">&minus;13</span></td><td><span class="pts-bold">0</span></td></tr>
+          <tr><td><span class="s-pos">9</span></td><td>FC Emery</td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>36</td><td><span class="gd-neg">&minus;35</span></td><td><span class="pts-bold">0</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="standings-note">Source: <a href="https://tosoccerleague.ca/standings/" target="_blank" rel="noopener">TOSL Official Standings</a> &middot; Updated May 19, 2025</p>
+  </div>
+</section>
+
+<section id="scorers">
+  <div class="section-inner">
+    <p class="section-label">2025&ndash;26 Season</p>
+    <h2 class="section-title">Goal <span style="color:var(--blue)">Scorers</span></h2>
+    <div class="scorers-grid">
+      <div class="scorer-card"><div class="scorer-num">1</div><div><div class="scorer-name">Antonio Panico</div><div class="scorer-meta">1 Goal &middot; #45 &middot; ST</div></div></div>
+      <div class="scorer-card"><div class="scorer-num">1</div><div><div class="scorer-name">Lucas Ferreira</div><div class="scorer-meta">1 Goal &middot; #7 &middot; LW</div></div></div>
+      <div class="scorer-card"><div class="scorer-num">1</div><div><div class="scorer-name">Santiago Aguilar</div><div class="scorer-meta">1 Goal &middot; Forward</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="live">
+  <div class="section-inner">
+    <p class="section-label">Matchday</p>
+    <h2 class="section-title">Live <span class="stream-word">Stream</span></h2>
+    <div class="live-wrap">
+      <div class="live-box">
+        <div class="live-box-inner">
+          <div class="live-icon">&#128225;</div>
+          <div class="live-offline-title">No Live Stream Right Now</div>
+          <div class="live-offline-sub">Live streams go up on matchday. Subscribe on YouTube to get notified when we go live.</div>
+          <a href="https://youtube.com/@GVFC-U17-Toronto" target="_blank" rel="noopener" class="btn-red" style="margin-top:8px;">Subscribe on YouTube</a>
+        </div>
+        <!--
+          TO SWITCH TO LIVE MODE:
+          1. Remove the live-box-inner div above.
+          2. Uncomment below and replace LIVE_STREAM_ID with the YouTube video ID.
+          <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+            src="https://www.youtube.com/embed/LIVE_STREAM_ID?autoplay=1"
+            title="GVFC U-17 Live Stream"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        -->
+      </div>
+      <p class="live-next">Next match: Sun May 24 &middot; 9:00 am &middot; Toronto High Park FC (Away)</p>
+    </div>
+  </div>
+</section>
+
+<section id="replays-section">
+  <div class="section-inner">
+    <p class="section-label">Full Game Footage</p>
+    <h2 class="section-title">Match <span class="replays-word">Replays</span></h2>
+    <div class="replays-cta">
+      <a href="replays.html" target="_blank" class="btn-red">View All Replays &rarr;</a>
+      <p class="replays-sub">Full Veo recordings from every match &middot; Opens in new tab</p>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label">Photography</p>
+    <h2 class="section-title">Match <span class="gallery-word">Gallery</span></h2>
+    <div class="gallery-grid">
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#128248;</div><div class="gallery-tile-label">Match Day</div><div class="gallery-overlay"><span class="gallery-caption">Match Day Photos</span></div></div>
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#9917;</div><div class="gallery-tile-label">Training</div><div class="gallery-overlay"><span class="gallery-caption">Training Sessions</span></div></div>
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#127942;</div><div class="gallery-tile-label">Tournament</div><div class="gallery-overlay"><span class="gallery-caption">Tournament Moments</span></div></div>
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#128248;</div><div class="gallery-tile-label">Team</div><div class="gallery-overlay"><span class="gallery-caption">Team Photos</span></div></div>
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#9917;</div><div class="gallery-tile-label">Action</div><div class="gallery-overlay"><span class="gallery-caption">Action Shots</span></div></div>
+      <div class="gallery-tile"><div class="gallery-tile-icon">&#127919;</div><div class="gallery-tile-label">Goals</div><div class="gallery-overlay"><span class="gallery-caption">Goal Celebrations</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="news">
+  <div class="section-inner">
+    <p class="section-label">Latest Updates</p>
+    <h2 class="section-title">Club <span style="color:var(--blue)">News</span></h2>
+    <div class="news-grid">
+      <div class="news-card"><div class="news-card-top"></div><div class="news-card-body"><div class="news-date">May 14, 2025</div><div class="news-headline">Tough Defeat vs Cherry Beach SC &mdash; 6&ndash;2</div><div class="news-excerpt">Goals from Lucas Ferreira and Santiago Aguilar couldn&apos;t prevent a 6&ndash;2 defeat against Cherry Beach SC. The squad will regroup ahead of the May 24 fixture.</div><span class="news-tag">Match Report</span></div></div>
+      <div class="news-card"><div class="news-card-top"></div><div class="news-card-body"><div class="news-date">Apr 30, 2025</div><div class="news-headline">Season Opener &mdash; 1&ndash;1 Draw vs Power FC</div><div class="news-excerpt">Antonio Panico&apos;s goal earned a hard-fought opening day draw against Power FC. A solid start to the 25&ndash;26 season.</div><span class="news-tag">Match Report</span></div></div>
+      <div class="news-card"><div class="news-card-top"></div><div class="news-card-body"><div class="news-date">May 2025</div><div class="news-headline">Welcome to the Official U-17 Website</div><div class="news-excerpt">The official Gil Vicente FC Toronto U-17 website is live. Follow here for match reports, squad roster, schedule, and photo gallery throughout the season.</div><span class="news-tag">Announcement</span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3CHEpqCEJvh94HpWjTRlKF6FLuY/2cccc3a5-ba3a-49ff-ad69-860903c1b97b.png" alt="GVFC Badge" />
+      <div class="footer-brand-text"><strong>Gil Vicente FC Toronto &mdash; U-17</strong>Official team website &middot; 2025&ndash;26 Season &middot; IModel Qualifying B17</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Navigation</div>
+      <a href="#live">Live Stream</a>
+      <a href="replays.html" target="_blank">Replays</a>
+      <a href="#roster">Roster</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#standings">Standings</a>
+      <a href="#scorers">Scorers</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#news">News</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">External</div>
+      <a href="https://tosoccerleague.ca" target="_blank" rel="noopener">TOSL Website</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://youtube.com/@GVFC-U17-Toronto" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy; 2025&ndash;26 Gil Vicente FC Toronto U-17. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="https://youtube.com/@GVFC-U17-Toronto" target="_blank">YouTube</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+      <a href="https://tiktok.com" target="_blank">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function switchTab(e, tab) {
+    document.querySelectorAll(".tab-content").forEach(function(el){ el.classList.remove("active"); });
+    document.querySelectorAll(".tab-btn").forEach(function(el){ el.classList.remove("active"); });
+    document.getElementById("tab-" + tab).classList.add("active");
+    e.currentTarget.classList.add("active");
+  }
+  function toggleMenu() { document.getElementById("mobile-drawer").classList.toggle("open"); }
+  function closeMenu() { document.getElementById("mobile-drawer").classList.remove("open"); }
+  document.addEventListener("click", function(e) {
+    var nav = document.getElementById("main-nav");
+    var drawer = document.getElementById("mobile-drawer");
+    if (!nav.contains(e.target) && !drawer.contains(e.target)) { closeMenu(); }
+  });
+</script>
+</body>
+</html>
