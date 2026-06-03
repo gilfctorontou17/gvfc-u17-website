@@ -139,8 +139,10 @@
     #gallery .section-label { color:rgba(255,255,255,0.4); }
     #gallery .section-title { color:var(--white); }
     .gallery-word { color:var(--red); }
-    .gallery-cats { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:780px; margin:0 auto; }
-    @media(max-width:520px){ .gallery-cats{grid-template-columns:1fr;} }
+
+    /* Two big category tiles */
+    .gallery-cats { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:760px; margin:0 auto; }
+    @media(max-width:500px){ .gallery-cats{grid-template-columns:1fr;} }
     .gallery-cat-btn {
       position:relative; border-radius:12px; overflow:hidden; cursor:pointer;
       aspect-ratio:16/9; border:2px solid #2a2a2a;
@@ -148,78 +150,75 @@
       transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
       background:#111;
     }
-    .gallery-cat-btn:hover { border-color:var(--red); transform:translateY(-4px); box-shadow:0 12px 40px rgba(200,16,46,0.25); }
+    .gallery-cat-btn:hover { border-color:var(--red); transform:translateY(-4px); box-shadow:0 12px 36px rgba(200,16,46,0.25); }
     .gallery-cat-bg {
       position:absolute; inset:0; background-size:cover; background-position:center;
-      transition:transform 0.4s;
+      transition:transform 0.5s;
     }
-    .gallery-cat-btn:hover .gallery-cat-bg { transform:scale(1.04); }
-    .gallery-cat-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-    }
+    .gallery-cat-btn:hover .gallery-cat-bg { transform:scale(1.06); }
+    .gallery-cat-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, transparent 100%); }
     .gallery-cat-label {
-      position:relative; z-index:1; width:100%; padding:18px 20px;
-      font-family:"Bebas Neue",sans-serif; font-size:1.9rem; color:var(--white); letter-spacing:0.06em;
-      display:flex; flex-direction:column; gap:3px;
+      position:relative; z-index:2; width:100%; padding:18px 20px;
     }
-    .gallery-cat-sub { font-family:"Inter",sans-serif; font-size:0.68rem; color:rgba(255,255,255,0.55); font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
+    .gallery-cat-name { font-family:"Bebas Neue",sans-serif; font-size:1.8rem; color:var(--white); letter-spacing:0.06em; line-height:1; }
+    .gallery-cat-sub { font-family:"Inter",sans-serif; font-size:0.68rem; color:rgba(255,255,255,0.55); font-weight:700; letter-spacing:0.12em; text-transform:uppercase; display:block; margin-top:4px; }
     .gallery-cat-pill {
       position:absolute; top:14px; right:14px; z-index:2;
-      background:var(--red); color:#fff;
-      font-family:"Inter",sans-serif; font-weight:700; font-size:0.6rem;
-      text-transform:uppercase; letter-spacing:0.1em;
-      padding:3px 10px; border-radius:20px;
+      background:var(--red); color:#fff; font-size:0.62rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.08em; padding:3px 10px; border-radius:20px;
     }
 
-    /* Overlay screen */
+    /* Full-screen overlay */
     .gallery-overlay-screen { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.97); flex-direction:column; overflow-y:auto; }
     .gallery-overlay-screen.open { display:flex; }
-    .gallery-overlay-header { position:sticky; top:0; z-index:10; background:#0a0a0a; border-bottom:3px solid var(--red); padding:14px 5%; display:flex; align-items:center; gap:16px; }
-    .gallery-overlay-back { background:none; border:1px solid #444; color:#ccc; font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; padding:8px 16px; border-radius:4px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .gallery-overlay-header { position:sticky; top:0; z-index:10; background:var(--black); border-bottom:3px solid var(--red); padding:16px 5%; display:flex; align-items:center; gap:16px; }
+    .gallery-overlay-back { background:none; border:1px solid #444; color:#ccc; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; padding:8px 16px; border-radius:4px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
     .gallery-overlay-back:hover { border-color:var(--white); color:var(--white); }
-    .gallery-overlay-title { font-family:"Bebas Neue",sans-serif; font-size:1.5rem; color:var(--white); letter-spacing:0.04em; }
+    .gallery-overlay-title { font-family:"Bebas Neue",sans-serif; font-size:1.4rem; color:var(--white); letter-spacing:0.04em; }
     .gallery-overlay-body { padding:32px 5%; max-width:1200px; margin:0 auto; width:100%; }
 
-    /* Match list */
-    .match-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:16px; }
-    .match-card { background:#141414; border-radius:10px; overflow:hidden; border:1px solid #252525; cursor:pointer; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; }
-    .match-card:hover { transform:translateY(-4px); border-color:var(--red); box-shadow:0 10px 32px rgba(200,16,46,0.18); }
-    .match-card-thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; background:#1e1e1e; }
-    .match-card-thumb-placeholder { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#1a1a1a,#111); display:flex; align-items:center; justify-content:center; font-size:2.4rem; opacity:0.18; }
-    .match-card-header-bar { height:4px; background:linear-gradient(90deg,var(--blue),var(--red)); }
+    /* Match list grid */
+    .match-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+    .match-card { background:#111; border-radius:10px; overflow:hidden; border:1px solid #222; cursor:pointer; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; }
+    .match-card:hover { transform:translateY(-4px); border-color:var(--red); box-shadow:0 8px 28px rgba(200,16,46,0.2); }
+    .match-card-thumb { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; background:#1a1a1a; }
+    .match-card-thumb-placeholder { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#1a1a1a 0%,#222 100%); display:flex; align-items:center; justify-content:center; font-size:2.5rem; opacity:0.25; }
     .match-card-body { padding:14px 16px; }
-    .match-card-date { font-size:0.66rem; color:#555; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
-    .match-card-title { font-weight:700; font-size:0.9rem; color:var(--white); margin-bottom:8px; line-height:1.35; }
+    .match-card-date { font-size:0.65rem; color:#555; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
+    .match-card-title { font-weight:700; font-size:0.88rem; color:var(--white); margin-bottom:8px; line-height:1.35; }
     .match-card-footer { display:flex; align-items:center; justify-content:space-between; }
-    .match-card-result { display:inline-block; font-size:0.66rem; font-weight:700; text-transform:uppercase; padding:2px 9px; border-radius:3px; letter-spacing:0.05em; }
-    .mc-win  { background:rgba(22,163,74,0.18); color:#4ade80; }
+    .match-card-result { display:inline-block; font-size:0.65rem; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:3px; letter-spacing:0.05em; }
+    .mc-win { background:rgba(22,163,74,0.18); color:#4ade80; }
     .mc-loss { background:rgba(200,16,46,0.18); color:#f87171; }
     .mc-draw { background:#2a2a2a; color:#888; }
-    .match-card-count { font-size:0.66rem; color:#444; font-weight:600; }
+    .match-card-count { font-size:0.65rem; color:#444; }
+    .match-card-count.has-photos { color:#555; }
 
-    /* Photo grid */
-    .match-photos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+    /* Photo grid inside a match */
+    .match-photos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
     .match-photo-item { aspect-ratio:4/3; border-radius:8px; overflow:hidden; background:#1a1a1a; cursor:pointer; }
     .match-photo-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.35s; display:block; }
     .match-photo-item:hover img { transform:scale(1.06); }
+    .match-photo-view-header { display:flex; align-items:center; gap:16px; margin-bottom:24px; flex-wrap:wrap; }
+    .match-photo-view-title { font-family:"Bebas Neue",sans-serif; font-size:1.5rem; color:var(--white); letter-spacing:0.04em; }
 
-    /* Practice grid */
-    .practice-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
-    .practice-coming { aspect-ratio:4/3; border-radius:8px; background:#141414; border:1px dashed #2a2a2a; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
-    .practice-coming-icon { font-size:2.2rem; opacity:0.18; }
-    .practice-coming-label { font-size:0.7rem; color:#3a3a3a; text-transform:uppercase; letter-spacing:0.1em; font-weight:700; }
+    /* Practice */
+    .practice-coming { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 24px; text-align:center; gap:16px; }
+    .practice-coming-icon { font-size:4rem; opacity:0.15; }
+    .practice-coming-title { font-family:"Bebas Neue",sans-serif; font-size:2rem; color:#333; letter-spacing:0.04em; }
+    .practice-coming-sub { font-size:0.8rem; color:#444; max-width:300px; line-height:1.7; }
 
     /* Lightbox */
-    .lightbox { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.96); align-items:center; justify-content:center; }
-    .lightbox.open { display:flex; }
-    .lightbox-img { max-width:92vw; max-height:88vh; border-radius:6px; object-fit:contain; display:block; }
-    .lightbox-close { position:absolute; top:18px; right:22px; background:none; border:none; color:#aaa; font-size:2rem; cursor:pointer; line-height:1; transition:color 0.2s; }
-    .lightbox-close:hover { color:#fff; }
-    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.08); border:none; color:#ccc; font-size:2rem; width:48px; height:64px; cursor:pointer; border-radius:6px; display:flex; align-items:center; justify-content:center; transition:background 0.2s,color 0.2s; }
-    .lightbox-nav:hover { background:rgba(255,255,255,0.18); color:#fff; }
-    .lightbox-prev { left:14px; }
-    .lightbox-next { right:14px; }
+    #lightbox { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.96); flex-direction:column; align-items:center; justify-content:center; }
+    #lightbox.open { display:flex; }
+    #lightbox img { max-width:90vw; max-height:84vh; object-fit:contain; border-radius:4px; }
+    .lb-close { position:absolute; top:18px; right:22px; background:none; border:none; color:#aaa; font-size:1.8rem; cursor:pointer; line-height:1; transition:color 0.2s; z-index:3001; }
+    .lb-close:hover { color:#fff; }
+    .lb-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.08); border:none; color:#ccc; font-size:1.6rem; width:48px; height:64px; cursor:pointer; border-radius:6px; transition:background 0.2s,color 0.2s; z-index:3001; display:flex; align-items:center; justify-content:center; }
+    .lb-nav:hover { background:rgba(255,255,255,0.16); color:#fff; }
+    .lb-prev { left:14px; }
+    .lb-next { right:14px; }
+    .lb-caption { position:absolute; bottom:20px; left:0; right:0; text-align:center; font-size:0.75rem; color:rgba(255,255,255,0.35); letter-spacing:0.06em; }
 
     #news { background:var(--white); }
     .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:20px; }
@@ -472,26 +471,26 @@
 <section id="gallery">
   <div class="section-inner">
     <p class="section-label">Photography</p>
-    <h2 class="section-title">Photo <span class="gallery-word">Gallery</span></h2>
+    <h2 class="section-title">Match <span class="gallery-word">Gallery</span></h2>
     <div class="gallery-cats">
 
-      <!-- Matchday -->
-      <div class="gallery-cat-btn" onclick="openGallery('matchday')" role="button" tabindex="0" aria-label="Open Matchday gallery">
+      <!-- Matchday tile -->
+      <div class="gallery-cat-btn" onclick="openGallery('matchday')" role="button" tabindex="0" aria-label="Open Matchday Gallery">
         <div class="gallery-cat-bg" style="background-image:url('https://lh3.googleusercontent.com/d/1QA9bdV3Rkk7fLCF2RtREBmCSUSvOk8gf');"></div>
         <div class="gallery-cat-overlay"></div>
         <span class="gallery-cat-pill">4 Games</span>
         <div class="gallery-cat-label">
-          Matchday
-          <span class="gallery-cat-sub">Competition &middot; View Photos</span>
+          <div class="gallery-cat-name">Matchday</div>
+          <span class="gallery-cat-sub">View Photos</span>
         </div>
       </div>
 
-      <!-- Practice -->
-      <div class="gallery-cat-btn" onclick="openGallery('practice')" role="button" tabindex="0" aria-label="Open Practice gallery">
-        <div class="gallery-cat-bg" style="background:linear-gradient(135deg,#0d1a3a 0%,#1a0a10 100%);"></div>
+      <!-- Practice tile -->
+      <div class="gallery-cat-btn" onclick="openGallery('practice')" role="button" tabindex="0" aria-label="Open Practice Gallery">
+        <div class="gallery-cat-bg" style="background:linear-gradient(135deg,#0a1628 0%,#1a0a0a 100%);"></div>
         <div class="gallery-cat-overlay"></div>
         <div class="gallery-cat-label">
-          Practice
+          <div class="gallery-cat-name">Practice</div>
           <span class="gallery-cat-sub">Training Sessions</span>
         </div>
       </div>
@@ -500,27 +499,28 @@
   </div>
 </section>
 
-<!-- ── Matchday Overlay ── -->
-<div class="gallery-overlay-screen" id="overlay-matchday">
+<!-- ── MATCHDAY OVERLAY ── -->
+<div class="gallery-overlay-screen" id="overlay-matchday" role="dialog" aria-modal="true" aria-label="Matchday Photos">
   <div class="gallery-overlay-header">
     <button class="gallery-overlay-back" onclick="closeGallery('matchday')">&larr; Back</button>
     <div class="gallery-overlay-title">Matchday Photos</div>
   </div>
   <div class="gallery-overlay-body" id="matchday-body">
+
+    <!-- Game list -->
     <div id="matchday-list">
       <div class="match-list">
 
-        <!-- Power FC -->
+        <!-- GV vs Power FC -->
         <div class="match-card" onclick="openMatch('power')" role="button" tabindex="0">
           <img class="match-card-thumb" src="https://lh3.googleusercontent.com/d/1QA9bdV3Rkk7fLCF2RtREBmCSUSvOk8gf" alt="GV vs Power FC" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
           <div class="match-card-thumb-placeholder" style="display:none;">&#128247;</div>
-          <div class="match-card-header-bar"></div>
           <div class="match-card-body">
             <div class="match-card-date">Apr 30, 2025 &middot; Away</div>
             <div class="match-card-title">Gil Vicente FC vs Power FC</div>
             <div class="match-card-footer">
               <span class="match-card-result mc-draw">1&ndash;1 Draw</span>
-              <span class="match-card-count">12 photos</span>
+              <span class="match-card-count has-photos">12 photos</span>
             </div>
           </div>
         </div>
@@ -528,13 +528,12 @@
         <!-- Cherry Beach SC -->
         <div class="match-card" onclick="openMatch('cherry')" role="button" tabindex="0">
           <div class="match-card-thumb-placeholder">&#128247;</div>
-          <div class="match-card-header-bar"></div>
           <div class="match-card-body">
             <div class="match-card-date">May 14, 2025 &middot; Away</div>
             <div class="match-card-title">Cherry Beach SC vs Gil Vicente FC</div>
             <div class="match-card-footer">
               <span class="match-card-result mc-loss">6&ndash;2 Loss</span>
-              <span class="match-card-count">No photos yet</span>
+              <span class="match-card-count">No photos</span>
             </div>
           </div>
         </div>
@@ -543,13 +542,12 @@
         <div class="match-card" onclick="openMatch('highpark')" role="button" tabindex="0">
           <img class="match-card-thumb" src="https://lh3.googleusercontent.com/d/17q9RDQCxgm-B1mnO78BJv0HFIelzJi3e" alt="GV vs Toronto High Park" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
           <div class="match-card-thumb-placeholder" style="display:none;">&#128247;</div>
-          <div class="match-card-header-bar"></div>
           <div class="match-card-body">
             <div class="match-card-date">May 24, 2025 &middot; Away</div>
             <div class="match-card-title">Toronto High Park FC vs Gil Vicente FC</div>
             <div class="match-card-footer">
               <span class="match-card-result mc-loss">1&ndash;0 Loss</span>
-              <span class="match-card-count">2 photos</span>
+              <span class="match-card-count has-photos">2 photos</span>
             </div>
           </div>
         </div>
@@ -557,13 +555,12 @@
         <!-- FC Emery -->
         <div class="match-card" onclick="openMatch('emery')" role="button" tabindex="0">
           <div class="match-card-thumb-placeholder">&#128247;</div>
-          <div class="match-card-header-bar"></div>
           <div class="match-card-body">
             <div class="match-card-date">May 29, 2025 &middot; Home</div>
             <div class="match-card-title">Gil Vicente FC vs FC Emery</div>
             <div class="match-card-footer">
               <span class="match-card-result mc-win">7&ndash;1 Win</span>
-              <span class="match-card-count">No photos yet</span>
+              <span class="match-card-count">No photos</span>
             </div>
           </div>
         </div>
@@ -571,35 +568,40 @@
       </div>
     </div>
 
+    <!-- Individual match photo view -->
     <div id="match-photo-view" style="display:none;">
-      <button class="gallery-overlay-back" onclick="backToMatchList()" style="margin-bottom:24px;">&larr; All Games</button>
-      <div id="match-photo-title" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--white);margin-bottom:20px;letter-spacing:0.04em;"></div>
+      <div class="match-photo-view-header">
+        <button class="gallery-overlay-back" onclick="backToMatchList()">&larr; All Games</button>
+        <div class="match-photo-view-title" id="match-photo-title"></div>
+      </div>
       <div class="match-photos-grid" id="match-photos-grid"></div>
     </div>
+
   </div>
 </div>
 
-<!-- ── Practice Overlay ── -->
-<div class="gallery-overlay-screen" id="overlay-practice">
+<!-- ── PRACTICE OVERLAY ── -->
+<div class="gallery-overlay-screen" id="overlay-practice" role="dialog" aria-modal="true" aria-label="Practice Photos">
   <div class="gallery-overlay-header">
     <button class="gallery-overlay-back" onclick="closeGallery('practice')">&larr; Back</button>
     <div class="gallery-overlay-title">Practice Photos</div>
   </div>
   <div class="gallery-overlay-body">
-    <div class="practice-grid">
-      <div class="practice-coming"><div class="practice-coming-icon">&#9917;</div><div class="practice-coming-label">Photos coming soon</div></div>
-      <div class="practice-coming"><div class="practice-coming-icon">&#9917;</div><div class="practice-coming-label">Photos coming soon</div></div>
-      <div class="practice-coming"><div class="practice-coming-icon">&#9917;</div><div class="practice-coming-label">Photos coming soon</div></div>
+    <div class="practice-coming">
+      <div class="practice-coming-icon">&#9917;</div>
+      <div class="practice-coming-title">Coming Soon</div>
+      <div class="practice-coming-sub">Training session photos will appear here once uploaded. Check back after the next practice.</div>
     </div>
   </div>
 </div>
 
-<!-- ── Lightbox ── -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
-  <button class="lightbox-nav lightbox-prev" onclick="lightboxStep(-1)" aria-label="Previous">&#8249;</button>
-  <img class="lightbox-img" id="lightbox-img" src="" alt="Full size match photo" />
-  <button class="lightbox-nav lightbox-next" onclick="lightboxStep(1)" aria-label="Next">&#8250;</button>
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+  <button class="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)" aria-label="Previous">&#8249;</button>
+  <img id="lb-img" src="" alt="Full-size match photo" />
+  <button class="lb-nav lb-next" onclick="lbNav(1)" aria-label="Next">&#8250;</button>
+  <div class="lb-caption" id="lb-caption"></div>
 </div>
 
 <section id="news">
@@ -658,14 +660,14 @@
 
   /* ── Mobile nav ── */
   function toggleMenu() { document.getElementById("mobile-drawer").classList.toggle("open"); }
-  function closeMenu()  { document.getElementById("mobile-drawer").classList.remove("open"); }
+  function closeMenu() { document.getElementById("mobile-drawer").classList.remove("open"); }
   document.addEventListener("click", function(e) {
     var nav = document.getElementById("main-nav");
     var drawer = document.getElementById("mobile-drawer");
     if (!nav.contains(e.target) && !drawer.contains(e.target)) { closeMenu(); }
   });
 
-  /* ── Gallery overlay ── */
+  /* ── Gallery overlays ── */
   function openGallery(cat) {
     document.getElementById("overlay-" + cat).classList.add("open");
     document.body.style.overflow = "hidden";
@@ -676,26 +678,24 @@
     backToMatchList();
   }
 
-  /* ── Photo data ──
-     Add Google Drive direct URLs using:
-     https://lh3.googleusercontent.com/d/FILE_ID
-  */
+  /* ── Match photo data ── */
+  // Photos served from Google Drive via lh3.googleusercontent.com/d/FILE_ID
   var matchPhotos = {
     power: {
       title: "Gil Vicente FC vs Power FC &mdash; Apr 30, 2025",
       photos: [
-        "https://lh3.googleusercontent.com/d/1QA9bdV3Rkk7fLCF2RtREBmCSUSvOk8gf",
-        "https://lh3.googleusercontent.com/d/1sD7TewVX_xweFCnB-Nk17mRZS6HFSzhH",
-        "https://lh3.googleusercontent.com/d/1xT1X7AYoUs9EWaWBCRY9qGFUl8Ubl0o1",
-        "https://lh3.googleusercontent.com/d/1qh_xEOCfJCmY7u2wlUanJ7R4e-CVWpRu",
-        "https://lh3.googleusercontent.com/d/1lGXi-7VyS7fAc5h8m2dO77gc6Cpw7iOb",
-        "https://lh3.googleusercontent.com/d/1tTtZ5oUkGZVMaWstsYNAe15G7TlDzQ5f",
-        "https://lh3.googleusercontent.com/d/1g14ci_h44TUylMfBoBa1_R7copEknpfU",
-        "https://lh3.googleusercontent.com/d/1oMHmCcTP5kAxLqNTDglaJT0F9wJFtj_f",
-        "https://lh3.googleusercontent.com/d/1N278GKN5K6_Ljb_R7zwuA_wOzhXbOWD6",
-        "https://lh3.googleusercontent.com/d/1bktP0wuXrNwra1CJHi_Dj4cSnpCTyj9g",
-        "https://lh3.googleusercontent.com/d/1k-7Yp4gb5UuZ_HmhxvjtYYTVXB1yFWJL",
-        "https://lh3.googleusercontent.com/d/1iaXVDL-9-AlmrvS4tFRN8D6vfRkYFfoB"
+        { id: "1QA9bdV3Rkk7fLCF2RtREBmCSUSvOk8gf", caption: "Adrian & Isaac" },
+        { id: "1sD7TewVX_xweFCnB-Nk17mRZS6HFSzhH", caption: "Huddle" },
+        { id: "1xT1X7AYoUs9EWaWBCRY9qGFUl8Ubl0o1", caption: "Post-game" },
+        { id: "1qh_xEOCfJCmY7u2wlUanJ7R4e-CVWpRu",  caption: "Lineup" },
+        { id: "1lGXi-7VyS7fAc5h8m2dO77gc6Cpw7iOb",  caption: "Group" },
+        { id: "1tTtZ5oUkGZVMaWstsYNAe15G7TlDzQ5f",  caption: "Claps" },
+        { id: "1g14ci_h44TUylMfBoBa1_R7copEknpfU",  caption: "Corner" },
+        { id: "1oMHmCcTP5kAxLqNTDglaJT0F9wJFtj_f",  caption: "Daniel & Jacob" },
+        { id: "1N278GKN5K6_Ljb_R7zwuA_wOzhXbOWD6",  caption: "Darrell & Isaac" },
+        { id: "1bktP0wuXrNwra1CJHi_Dj4cSnpCTyj9g",  caption: "Nicholas & Josh" },
+        { id: "1k-7Yp4gb5UuZ_HmhxvjtYYTVXB1yFWJL",  caption: "Marley & Panico" },
+        { id: "1iaXVDL-9-AlmrvS4tFRN8D6vfRkYFfoB",  caption: "Bruno & Isaac" }
       ]
     },
     cherry: {
@@ -705,8 +705,8 @@
     highpark: {
       title: "Toronto High Park FC vs Gil Vicente FC &mdash; May 24, 2025",
       photos: [
-        "https://lh3.googleusercontent.com/d/17q9RDQCxgm-B1mnO78BJv0HFIelzJi3e",
-        "https://lh3.googleusercontent.com/d/146MDDCKrFUsGzAi80Rr_K9B11qz6UVH1"
+        { id: "17q9RDQCxgm-B1mnO78BJv0HFIelzJi3e", caption: "Game Photos" },
+        { id: "146MDDCKrFUsGzAi80Rr_K9B11qz6UVH1",  caption: "Team Photo" }
       ]
     },
     emery: {
@@ -715,64 +715,80 @@
     }
   };
 
-  var currentPhotos = [];
-  var currentPhotoIndex = 0;
+  var lbPhotos = [];
+  var lbIndex  = 0;
 
   function openMatch(key) {
     var m = matchPhotos[key];
     document.getElementById("match-photo-title").innerHTML = m.title;
     var grid = document.getElementById("match-photos-grid");
     grid.innerHTML = "";
-    currentPhotos = m.photos;
+    lbPhotos = m.photos;
+
     if (!m.photos.length) {
-      grid.innerHTML = "<p style='color:#444;font-size:0.85rem;grid-column:1/-1;text-align:center;padding:60px 0;'>Photos coming soon.</p>";
+      grid.innerHTML = "<p style='color:#444;font-size:0.85rem;grid-column:1/-1;text-align:center;padding:60px 0;'>No photos for this match yet.</p>";
     } else {
-      m.photos.forEach(function(url, idx) {
-        var d = document.createElement("div");
-        d.className = "match-photo-item";
-        d.setAttribute("role","button");
-        d.setAttribute("tabindex","0");
-        d.setAttribute("aria-label","View photo " + (idx+1));
-        var i = document.createElement("img");
-        i.src = url; i.loading = "lazy"; i.alt = "Match photo " + (idx+1);
-        d.appendChild(i);
-        d.addEventListener("click", function(){ openLightbox(idx); });
-        d.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ openLightbox(idx); } });
-        grid.appendChild(d);
+      m.photos.forEach(function(p, idx) {
+        var url = "https://lh3.googleusercontent.com/d/" + p.id;
+        var wrap = document.createElement("div");
+        wrap.className = "match-photo-item";
+        wrap.setAttribute("role","button");
+        wrap.setAttribute("tabindex","0");
+        wrap.setAttribute("aria-label", p.caption || "Match photo");
+        wrap.onclick = function(){ openLightbox(idx); };
+        wrap.onkeydown = function(e){ if(e.key==="Enter"||e.key===" ") openLightbox(idx); };
+        var img = document.createElement("img");
+        img.src = url;
+        img.loading = "lazy";
+        img.alt = p.caption || "Match photo";
+        wrap.appendChild(img);
+        grid.appendChild(wrap);
       });
     }
+
     document.getElementById("matchday-list").style.display = "none";
     document.getElementById("match-photo-view").style.display = "block";
   }
 
   function backToMatchList() {
-    document.getElementById("matchday-list").style.display = "block";
-    document.getElementById("match-photo-view").style.display = "none";
+    var list = document.getElementById("matchday-list");
+    var view = document.getElementById("match-photo-view");
+    if (list) list.style.display = "block";
+    if (view) view.style.display = "none";
   }
 
   /* ── Lightbox ── */
   function openLightbox(idx) {
-    currentPhotoIndex = idx;
-    document.getElementById("lightbox-img").src = currentPhotos[idx];
+    lbIndex = idx;
+    renderLb();
     document.getElementById("lightbox").classList.add("open");
     document.body.style.overflow = "hidden";
   }
   function closeLightbox() {
     document.getElementById("lightbox").classList.remove("open");
-    document.body.style.overflow = "hidden"; /* keep gallery overlay scroll locked */
+    document.body.style.overflow = "hidden"; // keep gallery overlay scroll locked
   }
-  function lightboxStep(dir) {
-    currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
-    document.getElementById("lightbox-img").src = currentPhotos[currentPhotoIndex];
+  function lbNav(dir) {
+    lbIndex = (lbIndex + dir + lbPhotos.length) % lbPhotos.length;
+    renderLb();
+  }
+  function renderLb() {
+    var p = lbPhotos[lbIndex];
+    document.getElementById("lb-img").src = "https://lh3.googleusercontent.com/d/" + p.id;
+    document.getElementById("lb-caption").textContent = (p.caption || "") + (lbPhotos.length > 1 ? "  " + (lbIndex+1) + " / " + lbPhotos.length : "");
+    // Show/hide nav arrows
+    var showNav = lbPhotos.length > 1;
+    document.querySelector(".lb-prev").style.display = showNav ? "" : "none";
+    document.querySelector(".lb-next").style.display = showNav ? "" : "none";
   }
 
-  /* ── Keyboard ── */
+  /* ── Keyboard nav ── */
   document.addEventListener("keydown", function(e) {
     var lb = document.getElementById("lightbox");
     if (lb.classList.contains("open")) {
-      if (e.key === "ArrowLeft")  { lightboxStep(-1); return; }
-      if (e.key === "ArrowRight") { lightboxStep(1);  return; }
-      if (e.key === "Escape")     { closeLightbox();  return; }
+      if (e.key === "ArrowLeft")  { lbNav(-1); return; }
+      if (e.key === "ArrowRight") { lbNav(1);  return; }
+      if (e.key === "Escape")     { closeLightbox(); return; }
     }
     if (e.key === "Escape") {
       ["matchday","practice"].forEach(function(c){
@@ -781,13 +797,6 @@
       document.body.style.overflow = "";
       backToMatchList();
     }
-  });
-
-  /* Keyboard activation for gallery cat buttons */
-  document.querySelectorAll(".gallery-cat-btn").forEach(function(btn){
-    btn.addEventListener("keydown", function(e){
-      if(e.key==="Enter"||e.key===" "){ btn.click(); }
-    });
   });
 </script>
 </body>
