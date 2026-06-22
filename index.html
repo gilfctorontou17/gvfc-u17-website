@@ -21,7 +21,7 @@
     .nav-links a { font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; transition:color 0.2s; }
     .nav-links a:hover { color:var(--red); }
     .nav-links .live-link { color:var(--red); }
-    .nav-links .live-link::before { content:"? "; }
+    .nav-links .live-link::before { content:"● "; }
     .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
     .hamburger span { display:block; width:26px; height:2px; background:var(--white); border-radius:2px; }
     .mobile-drawer { display:none; position:fixed; top:64px; left:0; right:0; background:var(--black); border-top:1px solid #222; z-index:999; flex-direction:column; }
@@ -29,7 +29,7 @@
     .mobile-drawer a { font-weight:700; font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--white); text-decoration:none; padding:16px 5%; border-bottom:1px solid #1a1a1a; transition:background 0.2s; }
     .mobile-drawer a:hover { background:#1a1a1a; }
     .mobile-drawer a.live-link { color:var(--red); }
-    .mobile-drawer a.live-link::before { content:"? "; }
+    .mobile-drawer a.live-link::before { content:"● "; }
     @media(max-width:768px){ .nav-links{display:none;} .hamburger{display:flex;} }
     .hero { min-height:90vh; background:var(--black); display:flex; align-items:center; justify-content:center; text-align:center; padding:100px 24px 60px; position:relative; overflow:hidden; }
     .hero::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,61,165,0.18) 0%,rgba(200,16,46,0.18) 100%); pointer-events:none; }
@@ -399,7 +399,7 @@
     <h2 class="section-title">Live <span class="stream-word">Stream</span></h2>
     <div class="live-wrap">
       <div class="live-box"><div class="live-box-inner">
-        <div class="live-icon">&#128225;</div>
+        <div class="live-icon">📡</div>
         <div class="live-offline-title">No Live Stream Right Now</div>
         <div class="live-offline-sub">Live streams go up on matchday. Subscribe on YouTube to get notified when we go live.</div>
         <a href="https://youtube.com/@GilVicenteFCTorontoU-17" target="_blank" rel="noopener" class="btn-red" style="margin-top:8px;">Subscribe on YouTube</a>
@@ -483,7 +483,7 @@
           <div class="match-card-body">
             <div class="match-card-date">May 29, 2025 &middot; Home</div>
             <div class="match-card-title">Gil Vicente FC vs FC Emery</div>
-            <div class="match-card-footer"><span class="match-card-result mc-win">7&ndash;1 Win</span><span class="match-card-count has-photos">3 photos</span></div>
+            <div class="match-card-footer"><span class="match-card-result mc-win">7&ndash;1 Win</span><span class="match-card-count has-photos">7 photos</span></div>
           </div>
         </div>
         <div class="match-card" onclick="openMatch('nya')">
@@ -598,7 +598,7 @@
       {url:'https://lh3.googleusercontent.com/d/17q9RDQCxgm-B1mnO78BJv0HFIelzJi3e',cap:'Game photos'},
       {url:'https://lh3.googleusercontent.com/d/146MDDCKrFUsGzAi80Rr_K9B11qz6UVH1',cap:'Team photo'}
     ]},
-    emery:{title:'Gil Vicente FC vs FC Emery',subtitle:'May 29, 2025 · Home · 7–1 Win',photos:[{url:'https://lh3.googleusercontent.com/d/11J2vPDCjwCx1QILdWICizRVm32Yjh52V',cap:'Matchday v Emery'},{url:'https://lh3.googleusercontent.com/d/15GFk49tEp9w2Z3GeyOrjL4w3odyDpL6z',cap:'Matchday v Emery'},{url:'https://lh3.googleusercontent.com/d/1f0N30GM1Msii635-egqFMBrgPCTZ4TnW',cap:'Matchday v Emery'}]},
+    emery:{title:'Gil Vicente FC vs FC Emery',subtitle:'May 29, 2025 · Home · 7–1 Win',photos:[{url:'https://lh3.googleusercontent.com/d/11J2vPDCjwCx1QILdWICizRVm32Yjh52V',cap:'Group'},{url:'https://lh3.googleusercontent.com/d/15GFk49tEp9w2Z3GeyOrjL4w3odyDpL6z',cap:'Group'},{url:'https://lh3.googleusercontent.com/d/1f0N30GM1Msii635-egqFMBrgPCTZ4TnW',cap:'Group'},{url:'https://lh3.googleusercontent.com/d/1rT5gbnGAQIYH7Den7xY6qvjpz3EsxVoB',cap:'Lucas Ferreira'},{url:'https://lh3.googleusercontent.com/d/1gMV9_UUp3paLqoxUf4dhkH-Z8iTaCO5T',cap:'Lucas Ferreira'},{url:'https://lh3.googleusercontent.com/d/1CSDm6vtSOrW7fxvCO4SsEoiipb3WkMz-',cap:'Adrian Gomes'},{url:'https://lh3.googleusercontent.com/d/1QmRn4NpL0gouTmd4pYccPtFcHY4JoeGu',cap:'Adrian Gomes'}]},
     nya:{title:'Gil Vicente FC vs North York Academy',subtitle:'Jun 6, 2025 · Home · 0–3 Loss',photos:[]},
     ntsc:{title:'Gil Vicente FC vs North Toronto SC',subtitle:'Jun 9, 2025 · Home · 0–4 Loss',photos:[]}
   };
